@@ -33,6 +33,16 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
+      - name: Check secrets
+        run: |
+          if [ -z "${{ secrets.INFINITYFREE_USERNAME }}" ]; then echo "Missing INFINITYFREE_USERNAME"; exit 1; fi
+          if [ -z "${{ secrets.INFINITYFREE_PASSWORD }}" ]; then echo "Missing INFINITYFREE_PASSWORD"; exit 1; fi
+          if [ -z "${{ secrets.DB_HOST }}" ]; then echo "Missing DB_HOST"; exit 1; fi
+          if [ -z "${{ secrets.DB_NAME }}" ]; then echo "Missing DB_NAME"; exit 1; fi
+          if [ -z "${{ secrets.DB_USER }}" ]; then echo "Missing DB_USER"; exit 1; fi
+          if [ -z "${{ secrets.DB_PASS }}" ]; then echo "Missing DB_PASS"; exit 1; fi
+          if [ -z "${{ secrets.JWT_SECRET }}" ]; then echo "Missing JWT_SECRET"; exit 1; fi
+
       - name: Create production config
         run: |
           cat > config/config.php <<'PHP'
@@ -63,3 +73,5 @@ jobs:
             **/package.json
             **/package-lock.json
             **/database/**
+            **/config/config.php
+            **/app/view/login.php

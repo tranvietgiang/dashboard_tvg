@@ -7,3 +7,5 @@ define('DB_PASS', 'C1aDOYRENOXOkD');
 
 define('JWT_SECRET', 'dashboard_jwt_secret_2026_tranvietgiang');
 define('JWT_EXPIRE', 3600);
+
+define('INFINITYFREE_USERNAME', 'dashboard_jwt_secret_2026_tranvietgiang');
