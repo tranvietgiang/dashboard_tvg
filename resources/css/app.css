@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@source "../../app";
+@source "../../routes";
+@source "../../public";
