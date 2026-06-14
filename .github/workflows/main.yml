@@ -1,7 +1,18 @@
 name: PHP CI Deploy
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  INFINITYFREE_USERNAME: if0_42178397
+  DB_HOST: sql107.infinityfree.com
+  DB_NAME: if0_42178397_dashboard_tvg
+  DB_USER: if0_42178397
+
 on:
   push:
+    branches:
+      - main
+      - init-project
+  pull_request:
     branches:
       - main
 
@@ -11,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -28,18 +39,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check secrets
         run: |
-          if [ -z "${{ secrets.INFINITYFREE_USERNAME }}" ]; then echo "Missing INFINITYFREE_USERNAME"; exit 1; fi
           if [ -z "${{ secrets.INFINITYFREE_PASSWORD }}" ]; then echo "Missing INFINITYFREE_PASSWORD"; exit 1; fi
-          if [ -z "${{ secrets.DB_HOST }}" ]; then echo "Missing DB_HOST"; exit 1; fi
-          if [ -z "${{ secrets.DB_NAME }}" ]; then echo "Missing DB_NAME"; exit 1; fi
-          if [ -z "${{ secrets.DB_USER }}" ]; then echo "Missing DB_USER"; exit 1; fi
           if [ -z "${{ secrets.DB_PASS }}" ]; then echo "Missing DB_PASS"; exit 1; fi
           if [ -z "${{ secrets.JWT_SECRET }}" ]; then echo "Missing JWT_SECRET"; exit 1; fi
 
@@ -47,9 +55,9 @@ jobs:
         run: |
           cat > config/config.php <<'PHP'
           <?php
-          define('DB_HOST', '${{ secrets.DB_HOST }}');
-          define('DB_NAME', '${{ secrets.DB_NAME }}');
-          define('DB_USER', '${{ secrets.DB_USER }}');
+          define('DB_HOST', '${{ env.DB_HOST }}');
+          define('DB_NAME', '${{ env.DB_NAME }}');
+          define('DB_USER', '${{ env.DB_USER }}');
           define('DB_PASS', '${{ secrets.DB_PASS }}');
 
           define('JWT_SECRET', '${{ secrets.JWT_SECRET }}');
@@ -60,7 +68,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftpupload.net
-          username: ${{ secrets.INFINITYFREE_USERNAME }}
+          username: ${{ env.INFINITYFREE_USERNAME }}
           password: ${{ secrets.INFINITYFREE_PASSWORD }}
           local-dir: ./
           server-dir: /htdocs/
@@ -73,5 +81,4 @@ jobs:
             **/package.json
             **/package-lock.json
             **/database/**
-            **/config/config.php
             **/app/view/login.php

@@ -8,7 +8,7 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <title><?= $title ?? 'Dashboard' ?></title>
+    <title><?= XssMiddleware::escape($title ?? 'Dashboard') ?></title>
 </head>
 
 <body>

@@ -1,5 +1,12 @@
 <?php
 
+$router->get('/api/csrf-token', function () {
+    Response::json([
+        'success' => true,
+        'csrf_token' => CsrfMiddleware::token()
+    ]);
+});
+
 $router->post('/api/login', 'AuthController@login');
 
 $router->get('/api/profile', function () {

@@ -11,16 +11,25 @@ class AuthController
 
     public function login()
     {
-        $input = json_decode(file_get_contents("php://input"), true);
+        CsrfMiddleware::check();
 
-        $email = $input['email'] ?? '';
-        $password = $input['password'] ?? '';
+        $input = Security::requestInput();
+
+        $email = Security::cleanEmail($input['email'] ?? '');
+        $password = (string) ($input['password'] ?? '');
 
         if (empty($email) || empty($password)) {
             Response::json([
                 'success' => false,
                 'message' => 'Vui lòng nhập email và mật khẩu'
             ], 400);
+        }
+
+        if (!Security::isValidEmail($email)) {
+            Response::json([
+                'success' => false,
+                'message' => 'Email không hợp lệ'
+            ], 422);
         }
 
         $user = $this->userModel->findByEmail($email);
@@ -43,8 +52,8 @@ class AuthController
             'token' => $token,
             'user' => [
                 'id' => $user['id'],
-                'name' => $user['name'],
-                'email' => $user['email']
+                'name' => Security::cleanString($user['name']),
+                'email' => Security::cleanEmail($user['email'])
             ]
         ]);
     }
