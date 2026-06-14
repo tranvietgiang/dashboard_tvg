@@ -1,5 +1,5 @@
 <?php
-
+// config.php
 define('DB_HOST', 'sql107.infinityfree.com');
 define('DB_NAME', 'if0_42178397_dashboard_tvg');
 define('DB_USER', 'if0_42178397');
