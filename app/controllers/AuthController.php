@@ -37,7 +37,7 @@ class AuthController
         } catch (PDOException $error) {
             Response::json([
                 'success' => false,
-                'message' => 'Loi ket noi database. Kiem tra DB_HOST, DB_NAME, DB_USER, DB_PASS trong file .env hoac GitHub Secrets.'
+                'message' => $this->databaseErrorMessage($error)
             ], 500);
         }
 
@@ -72,5 +72,24 @@ class AuthController
                 'email' => Security::cleanEmail($user['email'])
             ]
         ]);
+    }
+
+    private function databaseErrorMessage(PDOException $error)
+    {
+        $code = (int) ($error->errorInfo[1] ?? $error->getCode());
+
+        if ($code === 1045) {
+            return 'Sai DB_USER hoac DB_PASS. Kiem tra GitHub Secret DB_PASS co dung mat khau MySQL cua InfinityFree khong.';
+        }
+
+        if ($code === 1049) {
+            return 'Sai DB_NAME. Kiem tra ten database tren InfinityFree va bien DB_NAME.';
+        }
+
+        if ($code === 2002) {
+            return 'Khong ket noi duoc DB_HOST. Kiem tra DB_HOST cua InfinityFree hoac hosting co cho ket noi MySQL khong.';
+        }
+
+        return 'Loi ket noi database. Kiem tra DB_HOST, DB_NAME, DB_USER, DB_PASS trong file .env hoac GitHub Secrets.';
     }
 }
