@@ -6,7 +6,7 @@ env:
   DB_HOST: sql107.infinityfree.com
   DB_NAME: if0_42178397_dashboard_tvg
   DB_USER: if0_42178397
-  APP_URL: ""
+  APP_URL: https://dashboard-tvg.kesug.com
   API_BASE_URL: /api
 
 on:
