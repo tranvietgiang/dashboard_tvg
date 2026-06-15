@@ -32,7 +32,14 @@ class AuthController
             ], 422);
         }
 
-        $user = $this->userModel->findByEmail($email);
+        try {
+            $user = $this->userModel->findByEmail($email);
+        } catch (PDOException $error) {
+            Response::json([
+                'success' => false,
+                'message' => 'Loi ket noi database. Kiem tra DB_HOST, DB_NAME, DB_USER, DB_PASS trong file .env hoac GitHub Secrets.'
+            ], 500);
+        }
 
         if (!$user || !password_verify($password, $user['password'])) {
             Response::json([
@@ -46,7 +53,14 @@ class AuthController
             'email' => $user['email']
         ]);
 
-        $this->userModel->logActivity((int) $user['id'], 'login', 'Dang nhap vao dashboard');
+        try {
+            $this->userModel->logActivity((int) $user['id'], 'login', 'Dang nhap vao dashboard');
+        } catch (PDOException $error) {
+            Response::json([
+                'success' => false,
+                'message' => 'Dang nhap dung nhung khong ghi duoc log hoat dong. Kiem tra bang user_activities trong database.'
+            ], 500);
+        }
 
         Response::json([
             'success' => true,
