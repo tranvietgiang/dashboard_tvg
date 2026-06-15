@@ -3,29 +3,36 @@
 <main class="min-h-screen bg-[radial-gradient(circle_at_top_left,_#dbeafe,_transparent_32%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_45%,_#f8fafc_100%)] px-4 py-10 sm:px-6 lg:px-8">
     <section class="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-6xl items-center justify-center">
         <div class="grid w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-200/70 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="hidden bg-slate-950 px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between">
-                <div>
-                    <p class="text-sm font-semibold uppercase tracking-[0.18em] text-sky-300">Dashboard TVG</p>
-                    <h1 class="mt-5 max-w-md text-4xl font-bold leading-tight">
-                        Quan ly he thong gon gang, bao mat, san sang lam viec.
-                    </h1>
-                    <p class="mt-5 max-w-md text-sm leading-6 text-slate-300">
-                        Dang nhap de truy cap bang dieu khien, API token va cac tinh nang quan tri noi bo.
-                    </p>
-                </div>
+            <div class="relative hidden min-h-[680px] overflow-hidden bg-slate-950 text-white lg:block">
+                <img
+                    src="<?= XssMiddleware::escape(appUrl('/assets/images/login-hero.png')) ?>"
+                    alt="Dashboard workspace"
+                    class="h-full min-h-[680px] w-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent"></div>
+                <div class="absolute inset-0 flex flex-col justify-between px-10 py-12">
+                    <div>
+                        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-sky-200">Dashboard TVG</p>
+                        <h1 class="mt-5 max-w-md text-4xl font-bold leading-tight">
+                            Quan ly he thong gon gang, bao mat, san sang lam viec.
+                        </h1>
+                        <p class="mt-5 max-w-md text-sm leading-6 text-slate-100">
+                            Dang nhap de truy cap bang dieu khien, API token va cac tinh nang quan tri noi bo.
+                        </p>
+                    </div>
 
-                <div class="grid grid-cols-3 gap-3 text-sm">
-                    <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                        <p class="text-2xl font-bold text-white">CSRF</p>
-                        <p class="mt-1 text-slate-400">Form token</p>
-                    </div>
-                    <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                        <p class="text-2xl font-bold text-white">XSS</p>
-                        <p class="mt-1 text-slate-400">Escape HTML</p>
-                    </div>
-                    <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                        <p class="text-2xl font-bold text-white">SQL</p>
-                        <p class="mt-1 text-slate-400">Prepared</p>
+                    <div class="grid grid-cols-3 gap-3 text-sm">
+                        <div class="rounded-md border border-white/20 bg-white/15 p-4 backdrop-blur">
+                            <p class="text-2xl font-bold text-white">CSRF</p>
+                            <p class="mt-1 text-slate-100">Form token</p>
+                        </div>
+                        <div class="rounded-md border border-white/20 bg-white/15 p-4 backdrop-blur">
+                            <p class="text-2xl font-bold text-white">XSS</p>
+                            <p class="mt-1 text-slate-100">Escape HTML</p>
+                        </div>
+                        <div class="rounded-md border border-white/20 bg-white/15 p-4 backdrop-blur">
+                            <p class="text-2xl font-bold text-white">SQL</p>
+                            <p class="mt-1 text-slate-100">Prepared</p>
+                        </div>
                     </div>
                 </div>
             </div>

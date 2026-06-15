@@ -58,6 +58,25 @@ function registerApiRoutes($router, $prefix)
         ]);
     });
 
+    $router->get($prefix . '/projects', function () {
+        AuthMiddleware::check();
+        $projectModel = new Project();
+
+        try {
+            $projects = $projectModel->all();
+        } catch (PDOException $error) {
+            Response::json([
+                'success' => false,
+                'message' => 'Khong lay duoc danh sach du an. Kiem tra ket noi database hoac bang projects.'
+            ], 500);
+        }
+
+        Response::json([
+            'success' => true,
+            'data' => $projects
+        ]);
+    });
+
     $router->post($prefix . '/projects', function () {
         AuthMiddleware::check();
         $input = Security::requestInput();
