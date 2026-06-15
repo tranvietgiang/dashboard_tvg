@@ -9,6 +9,7 @@
         <nav class="dashboard-nav" aria-label="Dashboard">
             <a href="<?= XssMiddleware::escape(appUrl('/dashboard')) ?>" class="active">Tong quan</a>
             <a href="<?= XssMiddleware::escape(appUrl('/duan')) ?>">Du an</a>
+            <a href="<?= XssMiddleware::escape(appUrl('/duan/them')) ?>">Them du an moi</a>
             <a href="<?= XssMiddleware::escape(appUrl('/login')) ?>" id="logoutLink">Dang xuat</a>
         </nav>
     </aside>

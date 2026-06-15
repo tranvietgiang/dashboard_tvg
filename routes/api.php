@@ -20,6 +20,11 @@ $router->get('/duan', function () {
     require __DIR__ . '/../app/view/duan.php';
 });
 
+$router->get('/duan/them', function () {
+    $title = 'Them du an moi';
+    require __DIR__ . '/../app/view/them-duan.php';
+});
+
 function registerApiRoutes($router, $prefix)
 {
     $prefix = '/' . trim($prefix, '/');
@@ -50,6 +55,35 @@ function registerApiRoutes($router, $prefix)
         Response::json([
             'success' => true,
             'data' => $userModel->dashboardStats((int) $user['user_id'])
+        ]);
+    });
+
+    $router->post($prefix . '/projects', function () {
+        AuthMiddleware::check();
+        $input = Security::requestInput();
+
+        if (empty($input['name'])) {
+            Response::json([
+                'success' => false,
+                'message' => 'Vui long nhap ten du an'
+            ], 422);
+        }
+
+        $projectModel = new Project();
+
+        try {
+            $projectId = $projectModel->create($input);
+        } catch (PDOException $error) {
+            Response::json([
+                'success' => false,
+                'message' => 'Khong luu duoc du an. Kiem tra ket noi database hoac bang projects.'
+            ], 500);
+        }
+
+        Response::json([
+            'success' => true,
+            'message' => 'Them du an thanh cong',
+            'id' => $projectId
         ]);
     });
 }

@@ -1,5 +1,5 @@
 <?php
-$projects = [
+$defaultProjects = [
     [
         'name' => 'Dashboard TVG',
         'description' => 'Bang dieu khien quan ly user, thong ke hoat dong va bao cao theo thang.',
@@ -34,6 +34,14 @@ $projects = [
         'stack' => ['PHP', 'MySQL', 'TailwindCSS'],
     ],
 ];
+
+try {
+    $projectModel = new Project();
+    $projects = $projectModel->all();
+    $projects = count($projects) > 0 ? $projects : $defaultProjects;
+} catch (PDOException $error) {
+    $projects = $defaultProjects;
+}
 ?>
 
 <?php require_once __DIR__ . '/header.php'; ?>
@@ -49,6 +57,7 @@ $projects = [
             <nav class="mt-8 grid grid-cols-3 gap-2 lg:grid-cols-1" aria-label="Dashboard">
                 <a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700" href="<?= XssMiddleware::escape(appUrl('/dashboard')) ?>">Tong quan</a>
                 <a class="rounded-lg bg-blue-50 px-3 py-3 text-sm font-semibold text-blue-700" href="<?= XssMiddleware::escape(appUrl('/duan')) ?>">Du an</a>
+                <a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700" href="<?= XssMiddleware::escape(appUrl('/duan/them')) ?>">Them du an moi</a>
                 <a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700" href="<?= XssMiddleware::escape(appUrl('/login')) ?>" id="logoutLink">Dang xuat</a>
             </nav>
         </aside>
