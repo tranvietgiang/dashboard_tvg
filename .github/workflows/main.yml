@@ -6,6 +6,8 @@ env:
   DB_HOST: sql107.infinityfree.com
   DB_NAME: if0_42178397_dashboard_tvg
   DB_USER: if0_42178397
+  APP_URL: ""
+  API_BASE_URL: /api
 
 on:
   push:
@@ -46,18 +48,22 @@ jobs:
           if [ -z "${{ secrets.DB_PASS }}" ]; then echo "Missing DB_PASS"; exit 1; fi
           if [ -z "${{ secrets.JWT_SECRET }}" ]; then echo "Missing JWT_SECRET"; exit 1; fi
 
-      - name: Create production config
+      - name: Create production env
         run: |
-          cat > config/config.php <<'PHP'
-          <?php
-          define('DB_HOST', '${{ env.DB_HOST }}');
-          define('DB_NAME', '${{ env.DB_NAME }}');
-          define('DB_USER', '${{ env.DB_USER }}');
-          define('DB_PASS', '${{ secrets.DB_PASS }}');
+          cat > .env <<'ENV'
+          DB_HOST=${{ env.DB_HOST }}
+          DB_NAME=${{ env.DB_NAME }}
+          DB_USER=${{ env.DB_USER }}
+          DB_PASS=${{ secrets.DB_PASS }}
 
-          define('JWT_SECRET', '${{ secrets.JWT_SECRET }}');
-          define('JWT_EXPIRE', 3600);
-          PHP
+          APP_URL=${{ env.APP_URL }}
+          API_BASE_URL=${{ env.API_BASE_URL }}
+
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_EXPIRE=3600
+
+          INFINITYFREE_USERNAME=${{ env.INFINITYFREE_USERNAME }}
+          ENV
 
       - name: FTP Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -71,6 +77,7 @@ jobs:
             **/.git*
             **/.git*/**
             **/.github/**
+            **/.env.example
             **/node_modules/**
             **/resources/**
             **/package.json
