@@ -1,0 +1,99 @@
+/* Dashboard UI – modern premium design */
+:root {
+  --color-bg-light: #f5f7fa;
+  --color-bg-dark: #1a1b1e;
+  --color-card-bg: rgba(255, 255, 255, 0.25);
+  --color-card-bg-dark: rgba(30, 30, 34, 0.75);
+  --color-primary: #2563eb; /* blue */
+  --color-primary-dark: #3b82f6;
+  --color-accent: #0f766e; /* teal */
+  --color-accent-dark: #2dd4bf;
+  --radius: 0.75rem;
+  --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+html[data-theme="dark"] {
+  --color-bg: var(--color-bg-dark);
+  --color-card-bg: var(--color-card-bg-dark);
+  color-scheme: dark;
+}
+html:not([data-theme="dark"]) {
+  --color-bg: var(--color-bg-light);
+}
+
+body {
+  background: var(--color-bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Layout */
+.db-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.db-sidebar {
+  flex: 0 0 250px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.db-sidebar a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.db-sidebar a.active, .db-sidebar a:hover {
+  color: var(--color-primary-dark);
+}
+
+.db-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.db-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.db-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.db-card {
+  background: var(--color-card-bg);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.db-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.db-panel {
+  background: var(--color-card-bg);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .db-shell { flex-direction: column; }
+  .db-sidebar { flex: none; width: 100%; height: auto; }
+}
