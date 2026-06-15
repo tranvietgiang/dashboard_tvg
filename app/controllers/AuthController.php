@@ -46,6 +46,8 @@ class AuthController
             'email' => $user['email']
         ]);
 
+        $this->userModel->logActivity((int) $user['id'], 'login', 'Dang nhap vao dashboard');
+
         Response::json([
             'success' => true,
             'message' => 'Đăng nhập thành công',

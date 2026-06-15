@@ -40,7 +40,7 @@
                         </p>
                     </div>
 
-                    <form method="post" action="/api/login" class="space-y-5">
+                    <form method="post" action="/api/login" class="space-y-5" id="loginForm">
                         <?= CsrfMiddleware::input() ?>
 
                         <label class="block">
@@ -72,6 +72,8 @@
                         </button>
                     </form>
 
+                    <p class="mt-3 hidden text-sm font-medium text-slate-700" id="loginMessage"></p>
+
                     <div class="mt-6 rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
                         <p class="font-medium text-slate-800">Tai khoan mac dinh</p>
                         <p class="mt-1">Email: <span class="font-mono text-slate-900">admin@example.com</span></p>
@@ -82,5 +84,7 @@
         </div>
     </section>
 </main>
+
+<script src="/assets/js/login.js"></script>
 
 <?php require_once __DIR__ . '/footer.php'; ?>
