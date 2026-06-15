@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="app-url" content="<?= XssMiddleware::escape(APP_URL) ?>">
+    <meta name="api-base-url" content="<?= XssMiddleware::escape(apiUrl()) ?>">
 
-    <link rel="stylesheet" href="/assets/css/app.css">
-    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="<?= XssMiddleware::escape(appUrl('/assets/css/app.css')) ?>">
+    <link rel="stylesheet" href="<?= XssMiddleware::escape(appUrl('/assets/css/dashboard.css')) ?>">
 
     <title><?= XssMiddleware::escape($title ?? 'Dashboard') ?></title>
 </head>

@@ -1,5 +1,9 @@
 const token = localStorage.getItem('dashboard_token');
+const appBaseUrl = document.querySelector('meta[name="app-url"]')?.content || '';
+const apiBaseUrl = document.querySelector('meta[name="api-base-url"]')?.content || '/api';
 const monthNames = ['Thang 1', 'Thang 2', 'Thang 3', 'Thang 4', 'Thang 5', 'Thang 6', 'Thang 7', 'Thang 8', 'Thang 9', 'Thang 10', 'Thang 11', 'Thang 12'];
+
+const joinUrl = (baseUrl, path) => `${baseUrl.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 
 const formatMonth = (month) => {
     if (!month) {
@@ -76,11 +80,11 @@ const renderActivities = (activities) => {
 
 const loadDashboard = async () => {
     if (!token) {
-        window.location.href = '/login';
+        window.location.href = joinUrl(appBaseUrl, '/login');
         return;
     }
 
-    const response = await fetch('/api/dashboard-stats', {
+    const response = await fetch(joinUrl(apiBaseUrl, '/dashboard-stats'), {
         headers: {
             Accept: 'application/json',
             Authorization: `Bearer ${token}`,
@@ -90,7 +94,7 @@ const loadDashboard = async () => {
 
     if (!response.ok || !result.success) {
         localStorage.removeItem('dashboard_token');
-        window.location.href = '/login';
+        window.location.href = joinUrl(appBaseUrl, '/login');
         return;
     }
 

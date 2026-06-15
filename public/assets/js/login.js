@@ -1,5 +1,8 @@
 const loginForm = document.getElementById('loginForm');
 const loginMessage = document.getElementById('loginMessage');
+const appBaseUrl = document.querySelector('meta[name="app-url"]')?.content || '';
+
+const joinUrl = (baseUrl, path) => `${baseUrl.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
 
 if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
@@ -25,7 +28,7 @@ if (loginForm) {
 
             localStorage.setItem('dashboard_token', result.token);
             localStorage.setItem('dashboard_user', JSON.stringify(result.user));
-            window.location.href = '/dashboard';
+            window.location.href = joinUrl(appBaseUrl, '/dashboard');
         } catch (error) {
             loginMessage.textContent = 'Khong the ket noi may chu';
         }

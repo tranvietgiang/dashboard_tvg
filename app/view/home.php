@@ -7,8 +7,9 @@
             <h1>Bang dieu khien</h1>
         </div>
         <nav class="dashboard-nav" aria-label="Dashboard">
-            <a href="/dashboard" class="active">Tong quan</a>
-            <a href="/login" id="logoutLink">Dang xuat</a>
+            <a href="<?= XssMiddleware::escape(appUrl('/dashboard')) ?>" class="active">Tong quan</a>
+            <a href="<?= XssMiddleware::escape(appUrl('/duan')) ?>">Du an</a>
+            <a href="<?= XssMiddleware::escape(appUrl('/login')) ?>" id="logoutLink">Dang xuat</a>
         </nav>
     </aside>
 
@@ -65,6 +66,6 @@
     </section>
 </main>
 
-<script src="/assets/js/dashboard.js"></script>
+<script src="<?= XssMiddleware::escape(appUrl('/assets/js/dashboard.js')) ?>"></script>
 
 <?php require_once __DIR__ . '/footer.php'; ?>

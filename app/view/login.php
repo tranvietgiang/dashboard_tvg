@@ -40,7 +40,7 @@
                         </p>
                     </div>
 
-                    <form method="post" action="/api/login" class="space-y-5" id="loginForm">
+                    <form method="post" action="<?= XssMiddleware::escape(apiUrl('/login')) ?>" class="space-y-5" id="loginForm">
                         <?= CsrfMiddleware::input() ?>
 
                         <label class="block">
@@ -85,6 +85,6 @@
     </section>
 </main>
 
-<script src="/assets/js/login.js"></script>
+<script src="<?= XssMiddleware::escape(appUrl('/assets/js/login.js')) ?>"></script>
 
 <?php require_once __DIR__ . '/footer.php'; ?>

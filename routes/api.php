@@ -15,16 +15,21 @@ $router->get('/dashboard', function () {
     require __DIR__ . '/../app/view/home.php';
 });
 
-$router->get('/api/csrf-token', function () {
+$router->get('/duan', function () {
+    $title = 'Du an';
+    require __DIR__ . '/../app/view/duan.php';
+});
+
+$router->get(apiRoute('/csrf-token'), function () {
     Response::json([
         'success' => true,
         'csrf_token' => CsrfMiddleware::token()
     ]);
 });
 
-$router->post('/api/login', 'AuthController@login');
+$router->post(apiRoute('/login'), 'AuthController@login');
 
-$router->get('/api/profile', function () {
+$router->get(apiRoute('/profile'), function () {
     $user = AuthMiddleware::check();
 
     Response::json([
@@ -34,7 +39,7 @@ $router->get('/api/profile', function () {
     ]);
 });
 
-$router->get('/api/dashboard-stats', function () {
+$router->get(apiRoute('/dashboard-stats'), function () {
     $user = AuthMiddleware::check();
     $userModel = new User();
 
