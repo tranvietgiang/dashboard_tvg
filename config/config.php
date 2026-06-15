@@ -17,11 +17,15 @@ function loadEnv($path)
 
         [$key, $value] = explode('=', $line, 2);
         $key = trim($key);
+        $key = preg_replace('/^\xEF\xBB\xBF/', '', $key);
         $value = trim($value);
         $value = trim($value, "\"'");
 
-        if ($key !== '' && getenv($key) === false) {
-            putenv($key . '=' . $value);
+        if ($key !== '' && getenv($key) === false && !array_key_exists($key, $_ENV)) {
+            if (function_exists('putenv')) {
+                putenv($key . '=' . $value);
+            }
+
             $_ENV[$key] = $value;
         }
     }
@@ -31,7 +35,11 @@ function envValue($key, $default = null)
 {
     $value = getenv($key);
 
-    return $value === false ? $default : $value;
+    if ($value !== false) {
+        return $value;
+    }
+
+    return array_key_exists($key, $_ENV) ? $_ENV[$key] : $default;
 }
 
 loadEnv(__DIR__ . '/../.env');
