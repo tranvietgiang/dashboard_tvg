@@ -20,31 +20,40 @@ $router->get('/duan', function () {
     require __DIR__ . '/../app/view/duan.php';
 });
 
-$router->get(apiRoute('/csrf-token'), function () {
-    Response::json([
-        'success' => true,
-        'csrf_token' => CsrfMiddleware::token()
-    ]);
-});
+function registerApiRoutes($router, $prefix)
+{
+    $prefix = '/' . trim($prefix, '/');
 
-$router->post(apiRoute('/login'), 'AuthController@login');
+    $router->get($prefix . '/csrf-token', function () {
+        Response::json([
+            'success' => true,
+            'csrf_token' => CsrfMiddleware::token()
+        ]);
+    });
 
-$router->get(apiRoute('/profile'), function () {
-    $user = AuthMiddleware::check();
+    $router->post($prefix . '/login', 'AuthController@login');
 
-    Response::json([
-        'success' => true,
-        'message' => 'Lấy profile thành công',
-        'data' => $user
-    ]);
-});
+    $router->get($prefix . '/profile', function () {
+        $user = AuthMiddleware::check();
 
-$router->get(apiRoute('/dashboard-stats'), function () {
-    $user = AuthMiddleware::check();
-    $userModel = new User();
+        Response::json([
+            'success' => true,
+            'message' => 'Lay profile thanh cong',
+            'data' => $user
+        ]);
+    });
 
-    Response::json([
-        'success' => true,
-        'data' => $userModel->dashboardStats((int) $user['user_id'])
-    ]);
-});
+    $router->get($prefix . '/dashboard-stats', function () {
+        $user = AuthMiddleware::check();
+        $userModel = new User();
+
+        Response::json([
+            'success' => true,
+            'data' => $userModel->dashboardStats((int) $user['user_id'])
+        ]);
+    });
+}
+
+foreach (array_unique([API_ROUTE_PREFIX, '/api', '/v1/api']) as $apiPrefix) {
+    registerApiRoutes($router, $apiPrefix);
+}
