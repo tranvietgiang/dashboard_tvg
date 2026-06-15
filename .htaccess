@@ -1,6 +1,6 @@
 RewriteEngine On
 
-RewriteRule ^(app|config|database|resources|routes|node_modules|\.github)(/|$) - [F,L]
+RewriteRule ^(\.env|app|config|database|resources|routes|node_modules|\.github)(/|$) - [F,L]
 
 RewriteRule ^assets/(.*)$ public/assets/$1 [L]
 
